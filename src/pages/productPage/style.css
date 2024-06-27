@@ -1,0 +1,171 @@
+
+.product{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+  .product-details {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  
+  }
+
+  .product-image{
+    width: 45%;
+    position: relative;
+  }
+  
+  .images {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+  
+  .main-image {
+    width: 300px;
+    height: auto;
+  }
+  
+  .thumbnail-images {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .thumbnail {
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  
+  .details {
+    width: 45%;
+  }
+  
+  .price {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+  }
+  
+  table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .get-quote {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .get-quote:hover {
+    background-color: #0056b3;
+  }
+
+  .carousel {
+    position: sticky !important;
+    top: 0;
+    z-index: 9;
+  }
+  
+  .carousel-item  {
+    width: 400px;
+    height: 400px; /* Adjust the height to your desired size */
+  }
+
+  .carousel-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* This will ensure the image covers the entire area without distortion */
+  }
+
+  .image-update{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    z-index: 8;
+  }
+
+  .product-details .details button {
+    margin-top: 10px;
+  }
+  
+  .product-details .product-image input {
+    margin-top: 10px;
+    display: block;
+  }
+  
+  .product-details .product-image button {
+    margin-top: 5px;
+  }
+  
+  .product-details .product-image {
+    margin-bottom: 20px;
+  }
+  
+  /* Add this to your existing CSS file */
+.admin-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admin-controls button {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.details input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+}
+
+.product-image input[type="file"] {
+  display: block;
+  margin-top: 10px;
+}
+
+@media screen and (max-width:768px) {
+
+  .product-details{
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .details{
+    width: 100%;
+  }
+
+  .details .table{
+    margin-bottom: 20px;
+  }
+
+  .product-image{
+    width: 100%;
+  }
+  
+}
+
+.contact-option{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  
+}

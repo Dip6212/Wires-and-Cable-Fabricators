@@ -1,0 +1,179 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { initializeApp } from "firebase/app";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { useNavigate } from "react-router-dom";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+} from "firebase/firestore";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { toast } from "react-toastify";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCKH5NSbpGA-f-R1FtI9UY_THqaIttvFQI",
+  authDomain: "wires-and-cables-fabrication.firebaseapp.com",
+  projectId: "wires-and-cables-fabrication",
+  storageBucket: "wires-and-cables-fabrication.appspot.com",
+  messagingSenderId: "791225269596",
+  appId: "1:791225269596:web:f2eef3cdcc47c409e89599",
+  databseURL: "https://wires-and-cables-fabrication-default-rtdb.firebaseio.com",
+};
+
+// Initialize Firebase
+export const firebaseApp = initializeApp(firebaseConfig);
+const firebaseAuth = getAuth(firebaseApp);
+const database = getDatabase(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+
+const FirebaseContext = createContext(null);
+
+export const useFirebase = () => useContext(FirebaseContext);
+
+export const FirebaseProvider = (props) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      setUser(user);
+      setLoading(false);
+      
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const signupUserWithEmailPassword = (email, password) => {
+    return createUserWithEmailAndPassword(firebaseAuth, email, password);
+  };
+
+  const loginUserWithEmailAndPassword = (email, password) => {
+    return signInWithEmailAndPassword(firebaseAuth, email, password);
+  };
+
+  const getItems = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "newCategory"));
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ id: doc.id, ...doc.data() });
+      });
+      console.log("Fetched items:", items);
+      return items;
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      return [];
+    }
+  };
+
+  const handleCreateNewListing = async (categoryData) => {
+    try {
+      await addDoc(collection(db, "items"), categoryData);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  };
+
+  const updateItem = async (id, data) => {
+    const itemDoc = doc(db, "items", id);
+    return await updateDoc(itemDoc, data);
+  };
+
+  const listAllCategories = () => {
+    return getDocs(collection(db, "items"));
+  };
+
+  const deleteCategoryById = async (categoryId) => {
+    await deleteDoc(doc(db, 'items', categoryId));
+  };
+
+  const updateCategoryById = async (categoryId, data) => {
+    await updateDoc(doc(db, 'items', categoryId), data);
+  };
+
+   const fetchCategoryById = async (id) => {
+    const categoryRef = doc(db, "items", id);
+    const categoryDoc = await getDoc(categoryRef);
+    if (categoryDoc.exists()) {
+      return { id: categoryDoc.id, ...categoryDoc.data() };
+    } else {
+      throw new Error("Category not found");
+    }
+  };
+
+  const addImage = async (file) => {
+    const imageRef = storageRef(storage, `images/${file.name}`);
+    await uploadBytes(imageRef, file);
+    return await getDownloadURL(imageRef);
+  };
+
+  const deleteItem = async (id) => {
+    const itemDoc = doc(db, "items", id);
+    return  await deleteDoc(itemDoc);
+  };
+
+  const deleteImage = async (url) => {
+    const imageRef = ref(storage, url);
+    await deleteObject(imageRef);
+  };
+
+  const signupWithGoogle = async () => {
+    await signInWithPopup(firebaseAuth, googleProvider);
+    toast.success(`Logged in Successfully`);
+    navigate("/");
+  };
+
+  const putData = (key, data) => set(ref(database, key), data);
+
+  const signOutUser = () => {
+    return signOut(firebaseAuth);
+  };
+
+  return (
+    <FirebaseContext.Provider
+      value={{
+        signupUserWithEmailPassword,
+        putData,
+        signupWithGoogle,
+        user,
+        loading,
+        signOutUser,
+        loginUserWithEmailAndPassword,
+        getItems,
+        deleteItem,
+        updateItem,
+        handleCreateNewListing,
+        listAllCategories,
+        storage,
+        storageRef,
+        uploadBytes,
+        getDownloadURL,
+        fetchCategoryById,
+        deleteImage,
+        addImage,
+        updateCategoryById,
+        deleteCategoryById
+      }}
+    >
+      {!loading && props.children}
+    </FirebaseContext.Provider>
+  );
+};
