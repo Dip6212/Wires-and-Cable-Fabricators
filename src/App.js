@@ -18,6 +18,7 @@ const db=getDatabase(firebaseApp);
 function App() {
 
   const { getItems,user } = useFirebase();
+  
   console.log("this is the current user",user);
   const [items, setItems] = useState([]);
   console.log(getItems);

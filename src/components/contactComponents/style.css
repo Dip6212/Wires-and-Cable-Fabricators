@@ -28,3 +28,16 @@ ul.list-unstyled li {
   .contact-heading{
     color: #21ABCD;
   }
+
+  .rating-card{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .raing-description{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }

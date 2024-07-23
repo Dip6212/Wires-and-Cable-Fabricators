@@ -180,9 +180,14 @@ svg:not(:root) {
   color: #21ABCD;
 }
 
+.style-module_starRatingWrap__q-lJC svg:not(:root){
+  color:inherit;
+}
+
 .btn{
   background-color: #21ABCD !important;
   color: #fff !important;
+  border: none;
   transition: all 0.25 ease-in-out !important;
 }
 

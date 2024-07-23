@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+
 import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
@@ -9,7 +10,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, serverTimestamp, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import {
   getFirestore,
@@ -47,12 +48,24 @@ const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
 
 export const FirebaseProvider = (props) => {
-  const [user, setUser] = useState(null);
+  // const [userInfo, setUserInfo] = useState({
+  //   diplayName:"",
+  //   photoURL:"",
+  //   email:"",
+  // });
+  const [user,setUser]=useState(null);
   const [loading, setLoading] = useState(true);
+  const [adminEmail, setAdminEmail] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      // const {displayName,photoURL,email}=user;
+      // setUserInfo(
+      //   user.displayName=displayName,
+      //   user.photoURL=photoURL,
+      //   user.email=email
+      // );
       setUser(user);
       setLoading(false);
       
@@ -101,6 +114,10 @@ export const FirebaseProvider = (props) => {
     return getDocs(collection(db, "items"));
   };
 
+  const getRating=async ()=>{
+    return getDocs(collection(db,"ratings"));
+  }
+
   const deleteCategoryById = async (categoryId) => {
     await deleteDoc(doc(db, 'items', categoryId));
   };
@@ -108,6 +125,30 @@ export const FirebaseProvider = (props) => {
   const updateCategoryById = async (categoryId, data) => {
     await updateDoc(doc(db, 'items', categoryId), data);
   };
+
+  const addRating=async (rating,description)=>{
+    if(user){
+      const {displayName,email,photoURL}=user;
+      try {
+        await addDoc(collection(db, 'ratings'),{
+          displayName,
+          email,
+          rating,
+          description,
+          photoURL,
+          timestamp: serverTimestamp(),
+        });
+       
+      } catch (error) {
+        console.error('Error adding document: ', error);
+      }
+    }
+    else{
+      console.log("pls sign in");
+      toast.error("please Sign in First");
+    }
+  };
+  
 
    const fetchCategoryById = async (id) => {
     const categoryRef = doc(db, "items", id);
@@ -118,6 +159,24 @@ export const FirebaseProvider = (props) => {
       throw new Error("Category not found");
     }
   };
+
+  const sendMail = async () => {
+    try {
+      const docRef = doc(db, 'config', 'adminEmail');
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        const email = docSnap.data().email;
+        setAdminEmail(email);
+        window.location.href = `mailto:${email}`;
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error fetching document: ", error);
+    }
+  };
+  
 
   const addImage = async (file) => {
     const imageRef = storageRef(storage, `images/${file.name}`);
@@ -170,7 +229,10 @@ export const FirebaseProvider = (props) => {
         deleteImage,
         addImage,
         updateCategoryById,
-        deleteCategoryById
+        deleteCategoryById,
+        addRating,
+        getRating,
+        sendMail
       }}
     >
       {!loading && props.children}

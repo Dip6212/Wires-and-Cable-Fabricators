@@ -8,12 +8,12 @@ const About = () => {
     {
       icon: <FaIndustry size={40} />,
       title: 'Nature of Business',
-      description: 'Exporter and Manufacturer',
+      description: 'Manufacturer and Exporter.',
     },
     {
       icon: <FaUsers size={40} />,
       title: 'Total Number of Employees',
-      description: 'Upto 10 People',
+      description: 'Upto 15 People',
     },
     {
       icon: <FaBuilding size={40} />,
@@ -28,7 +28,7 @@ const About = () => {
     {
       icon: <FaChartLine size={40} />,
       title: 'Annual Turnover',
-      description: 'Rs. 50 Lakh - 1 Crore',
+      description: 'Rs. 1Crore to 1.5Crore.',
     },
     {
       icon: <FaGlobe size={40} />,
@@ -39,6 +39,11 @@ const About = () => {
       icon: <FaFileAlt size={40} />,
       title: 'GST Number',
       description: '19AZTPM6545Q1Z3',
+    },
+    {
+      icon: <FaFileAlt size={40} />,
+      title: 'MSME',
+      description: 'UDYAM-WB-10-0031732',
     },
   ];
 

@@ -63,7 +63,7 @@ export const Navbar = () => {
             </>
           )}
         </div>
-        <p className='phone'><span className='icon'><BsFillTelephoneFill/></span><strong>Call 07942820929</strong></p>
+        <p className='phone'><span className='icon'><BsFillTelephoneFill/></span><strong>Call 9007141362</strong></p>
         </div>
         <div className='hamburger' onClick={toggleMenu}>
           <div className='bar'>1</div>

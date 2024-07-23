@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
 integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
 crossorigin="anonymous">
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -31,17 +32,42 @@ crossorigin="anonymous">
     <title>React App</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- <script>
+      $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+          autoplay: false,
+          items: 1,
+          center: false,
+          nav: true,
+          margin: 40,
+          dots: false,
+          loop: true,
+          navText: [
+            "<i class='fa fa-arrow-left' aria-hidden='true'></i>",
+            "<i class='fa fa-arrow-right' aria-hidden='true'></i>"
+          ],
+          responsive: {
+            0: { items: 1 },
+            575: { items: 1 },
+            768: { items: 2 },
+            991: { items: 3 },
+            1200: { items: 4 }
+          }
+        });
+      });
+    </script> -->
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    // <!--
+    //   This HTML file is a template.
+    //   If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    //   You can add webfonts, meta tags, or analytics to this file.
+    //   The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    //   To begin the development, run `npm start` or `yarn start`.
+    //   To create a production bundle, use `npm run build` or `yarn build`.
+    // -->
   </body>
 </html>
