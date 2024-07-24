@@ -231,7 +231,7 @@ export const Product = () => {
               )}
               <div className="contact-option">
 
-              <WhatsAppBtn phoneNumber="90071 41362" message={`Hello, I would like to ask more about ${subcategory.name}`}/>
+              <WhatsAppBtn phoneNumber="9007141362" message={`Hello, I would like to ask more about ${subcategory.name}`}/>
               <p><span className='icon'><BsFillTelephoneFill/></span><strong>Call 90071 41362</strong></p>
               </div>
             </div>

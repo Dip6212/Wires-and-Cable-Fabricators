@@ -70,7 +70,7 @@ const Contact = () => {
           <p>91% Call Response Rate</p>
           <div className='contact-button'>
 
-          <WhatsAppBtn phoneNumber="90071 41362" message={`Hello, I would like to ask more about: `}/>
+          <WhatsAppBtn phoneNumber="9007141362" message={`Hello, I would like to ask more about: `}/>
           {/* <Button variant="outline-success" style={{width:"fit-content"} }>Send Email</Button> */}
           <EmailButton/>
           </div>

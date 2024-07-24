@@ -37,6 +37,11 @@ export const Navbar = () => {
             smooth={true}
             duration={200}>Home</Link></li>
           <li><Link  activeClass="active"
+            to="rating"
+            spy={true}
+            smooth={true}
+            duration={200}>Ratings</Link></li>
+          <li><Link  activeClass="active"
             to="products"
             spy={true}
             smooth={true}

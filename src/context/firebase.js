@@ -118,6 +118,18 @@ export const FirebaseProvider = (props) => {
     return getDocs(collection(db,"ratings"));
   }
 
+
+const deleteRatingById = async (ratingId) => {
+  try {
+    await deleteDoc(doc(db, 'ratings', ratingId));
+    toast.success('Rating deleted successfully');
+  } catch (error) {
+    console.error('Error deleting rating: ', error);
+    toast.error('Failed to delete rating');
+  }
+};
+ 
+
   const deleteCategoryById = async (categoryId) => {
     await deleteDoc(doc(db, 'items', categoryId));
   };
@@ -232,7 +244,8 @@ export const FirebaseProvider = (props) => {
         deleteCategoryById,
         addRating,
         getRating,
-        sendMail
+        sendMail,
+        deleteRatingById
       }}
     >
       {!loading && props.children}
