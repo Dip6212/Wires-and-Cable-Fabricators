@@ -1,13 +1,16 @@
-
+.rating-card-wrap {
+    padding: 10px;
+    box-sizing: border-box;
+  }
 .rating-card{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #e5e5e5;
     min-height: 200px;
     margin: 0 15px;
-    padding: 20px ;
+    padding: 15px ;
     justify-content: space-between;
 }
 

@@ -19,7 +19,8 @@ const RatingSection = () => {
   useEffect(() => {
     const fetchRatings = async () => {
       const ratingsCollection = await firebase.getRating();
-      setRatings(ratingsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const fetchedRatings = ratingsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setRatings(fetchedRatings);
     };
 
     fetchRatings();
@@ -30,28 +31,32 @@ const RatingSection = () => {
     setRatings(ratings.filter(rating => rating.id !== ratingId));
   };
 
-  const settings = {
+  // let settings;
+
+  console.log("these are my ratings ",ratings.length)
+
+  var settings = {
     dots: true,
-    infinite: true,
+    infinite: (ratings.length>2 ? true : false),
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: (ratings.length>2 ? 3 : 1),
+    slidesToScroll: 1,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
+          slidesToShow: (ratings.length>2 ? 3 : 1),
+          slidesToScroll: 1,
+          infinite: (ratings.length>2 ? true : false),
           dots: true
         }
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: (ratings.length>2 ? 3 : 1),
+          slidesToScroll: 1,
           initialSlide: 2
         }
       },
@@ -65,12 +70,14 @@ const RatingSection = () => {
     ]
   };
 
+
+
   return (
     <Container>
       <h1 className='sectionHeading'>Our Ratings</h1>
       <Slider {...settings}>
-        {ratings.map((rating, index) => (
-          <div className='rating-card-wrap' key={index}>
+        {ratings.map((rating) => (
+          <div className='rating-card-wrap' key={rating.id}>
             <div className='rating-card'>
               <div className='rating'>
                 <Rating initialValue={rating.rating} readonly />
