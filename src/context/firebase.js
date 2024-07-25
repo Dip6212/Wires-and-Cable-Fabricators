@@ -191,6 +191,7 @@ const deleteRatingById = async (ratingId) => {
   
 
   const addImage = async (file) => {
+    const storage = getStorage();
     const imageRef = storageRef(storage, `images/${file.name}`);
     await uploadBytes(imageRef, file);
     return await getDownloadURL(imageRef);

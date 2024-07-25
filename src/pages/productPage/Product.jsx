@@ -85,12 +85,13 @@ export const Product = () => {
     }
   };
 
-  const handleImageChange = async (subcategoryIndex, imageIndex, file) => {
+  const handleImageChange = async (subcategoryIndex, e) => {
+    const files = Array.from(e.target.files);
     const updatedCategory = { ...editedCategory };
-    const imageUrl = await firebase.addImage(file);
-    updatedCategory.subcategories[subcategoryIndex].images[imageIndex] = imageUrl;
-    setEditedCategory(updatedCategory);
+    const imageUrls = await Promise.all(files.map(file => firebase.addImage(file)));
 
+    updatedCategory.subcategories[subcategoryIndex].images = imageUrls;
+    setEditedCategory(updatedCategory);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -126,7 +127,8 @@ export const Product = () => {
 
                           <input
                             type="file"
-                            onChange={(e) => handleImageChange(subcategoryIndex, imageIndex, e.target.files[0])}
+                            multiple
+                            onChange={(e) => handleImageChange(subcategoryIndex, e)}
                           />
                           </div>
                         </div>
