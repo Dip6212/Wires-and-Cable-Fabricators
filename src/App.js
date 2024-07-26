@@ -11,6 +11,7 @@ import {Product} from './pages/productPage/Product';
 import { Dashboard } from './pages/Dashboard';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import EditAboutDetail from './components/EditAboutDetail';
 
 
 const db=getDatabase(firebaseApp);
@@ -45,6 +46,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/edit-about-detail/:id" element={<EditAboutDetail />} />
       </Routes>
        <ToastContainer position="top-center" autoClose={1000}/>
     </div>

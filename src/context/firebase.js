@@ -219,6 +219,36 @@ const deleteRatingById = async (ratingId) => {
     return signOut(firebaseAuth);
   };
 
+  const getAboutDetails = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "aboutDetails"));
+      const details = [];
+      querySnapshot.forEach((doc) => {
+        details.push({ id: doc.id, ...doc.data() });
+      });
+      return details;
+    } catch (error) {
+      console.error("Error fetching about details:", error);
+      return [];
+    }
+  };
+
+  const updateAboutDetail = async (id, data) => {
+    const detailDoc = doc(db, "aboutDetails", id);
+    return await updateDoc(detailDoc, data);
+  };
+  
+  const fetchAboutDetailById = async (id) => {
+    const detailRef = doc(db, "aboutDetails", id);
+    const detailDoc = await getDoc(detailRef);
+    if (detailDoc.exists()) {
+      return { id: detailDoc.id, ...detailDoc.data() };
+    } else {
+      throw new Error("Detail not found");
+    }
+  };
+  
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -246,7 +276,10 @@ const deleteRatingById = async (ratingId) => {
         addRating,
         getRating,
         sendMail,
-        deleteRatingById
+        deleteRatingById,
+        getAboutDetails,
+        updateAboutDetail,
+        fetchAboutDetailById
       }}
     >
       {!loading && props.children}
