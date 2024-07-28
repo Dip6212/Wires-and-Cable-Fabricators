@@ -21,6 +21,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  query,
 } from "firebase/firestore";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { toast } from "react-toastify";
@@ -188,6 +189,23 @@ const deleteRatingById = async (ratingId) => {
       console.error("Error fetching document: ", error);
     }
   };
+
+  const getAboutParagraph = async () => {
+    try {
+      const q = query(collection(db, "aboutParagraph")); 
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const docSnap = querySnapshot.docs[0];
+        return docSnap.data().paragraph;
+      } else {
+        console.log("No such document!");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching document: ", error);
+    }
+  }
   
 
   const addImage = async (file) => {
@@ -237,6 +255,16 @@ const deleteRatingById = async (ratingId) => {
     const detailDoc = doc(db, "aboutDetails", id);
     return await updateDoc(detailDoc, data);
   };
+  const updateAboutParagraph = async (paragraph) => {
+    try {
+      const detailDoc = doc(db, "aboutParagraph", "mtPfrOSezNHKHm606trX"); 
+      const data = { paragraph: paragraph }; 
+      await updateDoc(detailDoc, data);
+      console.log("Document successfully updated!");
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+  };
   
   const fetchAboutDetailById = async (id) => {
     const detailRef = doc(db, "aboutDetails", id);
@@ -279,7 +307,9 @@ const deleteRatingById = async (ratingId) => {
         deleteRatingById,
         getAboutDetails,
         updateAboutDetail,
-        fetchAboutDetailById
+        fetchAboutDetailById,
+        getAboutParagraph,
+        updateAboutParagraph
       }}
     >
       {!loading && props.children}

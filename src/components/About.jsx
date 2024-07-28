@@ -5,16 +5,19 @@ import { useFirebase } from '../context/firebase'; // Adjust the import path as 
 import { Link } from "react-router-dom"; // Make sure to install and import react-router-dom
 
 const About = () => {
-  const { getAboutDetails, updateAboutParagraph, user } = useFirebase(); // Assuming updateAboutParagraph is available
+  const { getAboutDetails, updateAboutParagraph,getAboutParagraph, user } = useFirebase(); // Assuming updateAboutParagraph is available
   const [details, setDetails] = useState([]);
-  const [paragraph, setParagraph] = useState("Established In The Year 1988, \"Wire And Cable Fabricators\" Is Manufacturer Of Water Cooled Power Cable, Stainless Steel Wire Hose Clamp, Water Flow Switch & Bare Tinned Copper Round Braids Etc.");
+  const [paragraph, setParagraph] = useState("");
   const [isEditingParagraph, setIsEditingParagraph] = useState(false);
   const adminID = process.env.REACT_APP_ADMIN_ID;
 
   useEffect(() => {
     const fetchDetails = async () => {
       const data = await getAboutDetails();
+      const para=await getAboutParagraph(); 
       setDetails(data);
+      setParagraph(para);
+      console.log("this is my about paragraph ",para);
     };
 
     fetchDetails();
@@ -26,7 +29,7 @@ const About = () => {
 
   const handleSaveParagraph = async () => {
     // Save the updated paragraph to the database
-    // await updateAboutParagraph(paragraph);
+    await updateAboutParagraph(paragraph);
     setIsEditingParagraph(false);
   };
 
